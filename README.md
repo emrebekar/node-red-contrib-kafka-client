@@ -65,8 +65,10 @@ npm install node-red-contrib-kafka-client
 ```
 ## Screenshots
 
-https://github.com/emrebekar/node-red-contrib-kafka-client/blob/master/images/kafka-broker.PNG
+![alt text](https://github.com/emrebekar/node-red-contrib-kafka-client/blob/master/images/kafka-broker.PNG)
 
-https://github.com/emrebekar/node-red-contrib-kafka-client/blob/master/images/kafka-consumer.PNG
+![alt text](https://github.com/emrebekar/node-red-contrib-kafka-client/blob/master/images/kafka-consumer.PNG)
 
-https://github.com/emrebekar/node-red-contrib-kafka-client/blob/master/images/kafka-producer.PNG
+![alt text](https://github.com/emrebekar/node-red-contrib-kafka-client/blob/master/images/kafka-flow.PNG)
+
+![alt text](https://github.com/emrebekar/node-red-contrib-kafka-client/blob/master/images/kafka-producer.PNG)
