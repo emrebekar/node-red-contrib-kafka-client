@@ -9,8 +9,6 @@ module.exports = function(RED) {
         let broker = RED.nodes.getNode(config.broker);
 
         let kafkaClient = new kafka.KafkaClient(broker.getOptions());;
-
-        console.log(broker.getOptions());
         
         let producerOptions = new Object();
         producerOptions.requireAcks = config.requireAcks;
@@ -24,7 +22,6 @@ module.exports = function(RED) {
         
         producer.on('error', function(){
             ready = false;
-            console.log(options);
             node.status({fill:"red",shape:"ring",text:"Error"});
         });
 
