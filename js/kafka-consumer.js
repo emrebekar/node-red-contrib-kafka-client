@@ -6,12 +6,12 @@ module.exports = function(RED) {
         var node = this;
             
         let broker = RED.nodes.getNode(config.broker);        
+        var options = broker.getOptions();
+        options.groupId = config.groupid;
+        options.fromOffset = config.fromOffset;
+        options.outOfRangeOffset = config.outOfRangeOffset;
 
-        broker.options.groupId = config.groupid;
-        broker.options.fromOffset = config.fromOffset;
-        broker.options.outOfRangeOffset = config.outOfRangeOffset;
-
-        var consumerGroup = new kafka.ConsumerGroup(broker.options, config.topic);
+        var consumerGroup = new kafka.ConsumerGroup(options, config.topic);
 
         node.status({fill:"green",shape:"ring",text:"Ready"});
 
@@ -26,6 +26,7 @@ module.exports = function(RED) {
         consumerGroup.on('message', function (message) {
             var msg = { payload:message }
             node.send(msg);
+            node.status({fill:"blue",shape:"ring",text:"Reading"});
         });
     }
     RED.nodes.registerType("kafka-consumer",KafkaConsumerNode);

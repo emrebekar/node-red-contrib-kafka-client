@@ -8,7 +8,9 @@ module.exports = function(RED) {
     
         let broker = RED.nodes.getNode(config.broker);
 
-        let kafkaClient = new kafka.KafkaClient(broker.options);;
+        let kafkaClient = new kafka.KafkaClient(broker.getOptions());;
+
+        console.log(broker.getOptions());
         
         let producerOptions = new Object();
         producerOptions.requireAcks = config.requireAcks;
@@ -33,8 +35,13 @@ module.exports = function(RED) {
     
         node.on('input', function(msg) {
             sendOptions.messages =[msg.payload];
-            producer.send([sendOptions],function (err, result) {
-                //console.log(result);
+            producer.send([sendOptions],function (err) {
+                if(!err){
+                    node.status({fill:"blue",shape:"ring",text:"Sending"});
+                }
+                else{
+                    node.status({fill:"red",shape:"ring",text:"Error"});
+                }
             });
         });
     }
