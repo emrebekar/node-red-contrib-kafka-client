@@ -10,47 +10,47 @@ Note: This library only supports 'plaintext' and 'tls' authorization. SASL autho
 
 ## Input Parameters
 ### kafka-broker
-##### Name (Optional)
+#### Name (Optional)
 Name wanted to be shown in Node
-##### Hosts
+#### Hosts
 Host names comma delimited (Multiple host is provided)
-##### Use TLS
+#### Use TLS
 Check if tls security is required for Kafka Cluster
-##### CA Certs (Optional)
+#### CA Certs (Optional)
 CA Root certificate path defined in Kafka Cluster
-##### Client Cert (Optional)
+#### Client Cert (Optional)
 Client cert path created by openssl derived from Private Key (pem)
-##### Private Key (Optional)
+#### Private Key (Optional)
 Private Key path created by openssl (pem)
-##### Passphare (Optional)
+#### Passphare (Optional)
 Passphrase of created private Key
-##### Self Sign
+#### Self Sign
 Check if want to be allowed untrusted certificates
 
 ### kafka-producer
-##### Name (Optional)
+#### Name (Optional)
 Name wanted to be shown in NodeRename your node
-##### Broker
+#### Broker
 Broker which is wanted to be connect
-##### Topic
+#### Topic
 Topic name of selected broker which is wanted to be consume
-##### Require Ack
+#### Require Ack
 Default value is 1. 0 can be past if Acknowledge is not required.
-##### Ack Timeout
+#### Ack Timeout
 Timeout of acknowledge response.
-##### Attiributes
+#### Attiributes
 Can be selected if compression is important
 
 ### kafka-consumer
-##### Name (Optional)
+#### Name (Optional)
 Name wanted to be shown in NodeRename your node
-##### Broker
+#### Broker
 Broker which is wanted to be connect
-##### Topic
+#### Topic
 Topic name of selected broker which is wanted to be consume
-##### From Offset
+#### From Offset
 'latest', 'none' or 'earliest' options can be selected
-##### Out of Range Offset
+#### Out of Range Offset
 'latest', 'none' or 'earliest' options can be selected
 
 ## Installation
