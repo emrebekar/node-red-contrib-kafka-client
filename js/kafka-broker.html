@@ -1,0 +1,98 @@
+<script type="text/html" data-help-name="kafka-broker">
+    <p>Define a kafka-broker. </p>
+    <p>"Hosts process.env name" can contain a process.env property name that contained hosts as JSON string,e.g.</p>
+    <textarea>process.env.atesthosts='[{"host":"atesthost1","port":1234},{"host":"atesthost2","port":4321}]';</textarea>
+    <p>Note, minimal data quality checks performed.</p>
+</script>
+
+<script type="text/html" data-template-name="kafka-broker">
+
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input  id="node-config-input-name" type="text" >
+	</div>
+	
+	<div class="form-row">
+        <label for="node-config-input-hosts"><i class="fa fa-tag"></i> Hosts</label>
+        <input  id="node-config-input-hosts" type="text" placeholder="example1.com:9092,example2.com:9092,..." >
+    </div>
+
+	<div class="form-row">
+		<input type="checkbox" id="node-config-input-usetls" style="display: inline-block; width: auto; vertical-align: top;">
+		<label for="node-config-input-usetls" style="width: auto">Use TLS</label>
+	</div>
+	
+	<div id="node-config-tls" class="form-row">
+
+		<div class="form-row">
+			<label for="node-config-input-cacert"><i class="fa fa-tag"></i> CA Cert</label>
+			<input  id="node-config-input-cacert" type="text" placeholder="/var/..." >
+		</div>
+		
+		<div class="form-row">
+			<label for="node-config-input-clientcert"><i class="fa fa-tag"></i> Client Cert</label>
+			<input  id="node-config-input-clientcert" type="text" placeholder="/var/..." >
+		</div>
+		
+		<div class="form-row">
+			<label for="node-config-input-privatekey"><i class="fa fa-tag"></i> Private Key</label>
+			<input  id="node-config-input-privatekey" type="text" placeholder="/var/..." >
+		</div>
+		
+		<div class="form-row">
+			<label for="node-config-input-passphrase"><i class="fa fa-tag"></i> Passphrase</label>
+			<input  id="node-config-input-passphrase" type="password" placeholder="Passphrase" >
+		</div>
+
+		<div class="form-row">
+			<input type="checkbox" id="node-config-input-selfsign" style="display: inline-block; width: auto; vertical-align: top;">
+			<label for="node-config-input-selfsign" style="width: auto">Self Sign</label>
+		</div>
+	</div>
+	
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('kafka-broker',{
+        category: 'config',
+        icon: "setting.png",
+        defaults: {
+        	name: {required:false},
+        	hosts: {value: [], required: true},
+			selfsign: {value: false,required: false},
+			usetls: {value: false},
+			cacert: {required:false},
+			clientcert: {required:false},
+			privatekey: {required:false},
+			passphrase: {required:false},
+		},
+
+        label: function() {
+            return this.name||this._("kafka-broker");
+		},
+		
+        labelStyle: function() {
+            return "node_label_italic";
+		},
+		
+  	    oneditprepare: function() {
+			function checkTls(){
+				if (!$("#node-config-input-usetls").is(':checked')) {
+					$("#node-config-tls").hide();
+				}
+				else{
+					$("#node-config-tls").show();
+				}
+			}
+
+			checkTls();
+
+			$("#node-config-input-usetls").click(function(){
+				checkTls();
+			});
+  		},
+  		oneditsave: function() {
+
+        }
+    });
+</script>

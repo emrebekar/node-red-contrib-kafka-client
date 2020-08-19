@@ -1,0 +1,77 @@
+<script type="text/html" data-help-name="kafka-consumer">
+    <p>A Kafka Consumer Group</p>
+</script>
+
+<script type="text/html" data-template-name="kafka-consumer">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    
+    <div class="form-row">
+    	<label for="node-input-broker"><i class="fa fa-list-ul"></i> Broker</label>
+    	<input type="text" id="node-input-broker">
+    </div>
+      
+    <div class="form-row">
+        <label for="node-input-groupid"><i class="fa fa-tag"></i> Group Id</label>
+        <input type="text" id="node-input-groupid" placeholder="Group Id">
+    </div>
+      
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
+        <input type="text" id="node-input-topic" placeholder="Topic">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-fromOffset"><i class="fa fa-tag"></i> From Offset</label>
+         <select id="node-input-fromOffset">
+         	<option value="latest">latest</option>
+         	<option value="earliest">earliest</option>
+         	<option value="none">none</option>
+         </select>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-outOfRangeOffset"><i class="fa fa-tag"></i> Out of Range Offset</label>
+         <select id="node-input-outOfRangeOffset">
+         	<option value="latest">earliest</option>
+         	<option value="earliest">latest</option>
+         	<option value="none">none</option>
+         </select>
+    </div>
+
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('kafka-consumer',{
+        category: 'kafka',
+        defaults: {
+            name: {value:""},
+            broker: {type:"kafka-broker"},
+            outOfRangeOffset: {value:"earliest"},
+            fromOffset: {value:"latest"},
+            topic: {required:true},
+            groupid: {required:true}
+        },
+        inputs:0,
+        outputs:1,
+        align: "left",
+        icon: "publish.png",
+        label: function() {
+            return this.name||this._("kafka-consumer");
+        },
+        labelStyle: function() {
+            return "node_label_italic";
+        },
+        oneditprepare: function() {
+
+        },
+        oneditsave: function() {
+
+        },
+        oneditresize: function(size) {
+
+        }
+    });
+</script>

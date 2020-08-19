@@ -1,0 +1,10 @@
+{
+    "name" : "node-red-contrib-kafka-client",
+    "node-red" : {
+        "nodes": {
+            "kafka-consumer": "./js/kafka-consumer.js",
+            "kafka-producer": "./js/kafka-producer.js",
+            "kafka-broker": "./js/kafka-broker.js"
+        }
+    }
+}
