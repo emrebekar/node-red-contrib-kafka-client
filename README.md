@@ -63,3 +63,10 @@ npm install node-red-contrib-kafka-client
 ```JSON
 {"topic":"TOPIC_NAME","value":"DENEME","offset":16638,"partition":0,"highWaterOffset":16639,"key":null,"timestamp":"2020-08-19T08:58:27.866Z"}
 ```
+## Screenshots
+
+https://github.com/emrebekar/node-red-contrib-kafka-client/blob/master/images/kafka-broker.PNG
+
+https://github.com/emrebekar/node-red-contrib-kafka-client/blob/master/images/kafka-consumer.PNG
+
+https://github.com/emrebekar/node-red-contrib-kafka-client/blob/master/images/kafka-producer.PNG
