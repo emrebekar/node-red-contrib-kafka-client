@@ -14,16 +14,21 @@ module.exports = function(RED) {
         producerOptions.requireAcks = config.requireAcks;
         producerOptions.ackTimeoutMs = config.ackTimeoutMs;
         
-        let producer = new kafka.HighLevelProducer(kafkaClient, producerOptions);
-        producer.on('ready', function () {
-            ready = true;
-            node.status({fill:"green",shape:"ring",text:"Ready"});
-        });
-        
-        producer.on('error', function(){
+        node.producer = new kafka.HighLevelProducer(kafkaClient, producerOptions);
+
+        node.onError = function(err){
             ready = false;
             node.status({fill:"red",shape:"ring",text:"Error"});
-        });
+            node.error(err);
+        }
+
+        node.onReady = function(){
+            ready = true;
+            node.status({fill:"green",shape:"ring",text:"Ready"});
+        }
+
+        node.producer.on('ready', node.onReady);
+        node.producer.on('error', node.onError);
 
         let sendOptions = new Object();
 
@@ -32,7 +37,7 @@ module.exports = function(RED) {
     
         node.on('input', function(msg) {
             sendOptions.messages =[msg.payload];
-            producer.send([sendOptions],function (err) {
+            node.producer.send([sendOptions],function (err) {
                 if(!err){
                     node.status({fill:"blue",shape:"ring",text:"Sending"});
                 }
@@ -41,6 +46,12 @@ module.exports = function(RED) {
                 }
             });
         });
+
+        node.on('close', function(){
+            node.status({});
+            node.producer.removeListener('ready', node.onReady);
+            node.producer.removeListener('error', node.onError);
+        })
     }
     RED.nodes.registerType("kafka-producer",KafkaProducerNode);
 }
