@@ -9,9 +9,10 @@ module.exports = function(RED) {
         node.getOptions = function (){
             var options = new Object();
             options.kafkaHost = config.hosts;
-            options.sslOptions = new Object();
 
             if(config.usetls){
+                options.sslOptions = new Object();
+
                 options.sslOptions.ca = [fs.readFileSync(config.cacert, 'utf-8')];
                 options.sslOptions.cert = [fs.readFileSync(config.clientcert, 'utf-8')];
                 options.sslOptions.key = [fs.readFileSync(config.privatekey, 'utf-8')];
