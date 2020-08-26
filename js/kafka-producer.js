@@ -4,7 +4,7 @@ module.exports = function(RED) {
     function KafkaProducerNode(config) {
         RED.nodes.createNode(this,config);
         var node = this;
-        var ready = false;
+        node.ready = false;
     
         let broker = RED.nodes.getNode(config.broker);
 
@@ -17,13 +17,13 @@ module.exports = function(RED) {
         node.producer = new kafka.HighLevelProducer(kafkaClient, producerOptions);
 
         node.onError = function(err){
-            ready = false;
+            node.ready = false;
             node.status({fill:"red",shape:"ring",text:"Error"});
             node.error(err);
         }
 
         node.onReady = function(){
-            ready = true;
+            node.ready = true;
             node.status({fill:"green",shape:"ring",text:"Ready"});
         }
 
@@ -36,18 +36,21 @@ module.exports = function(RED) {
         sendOptions.attributes = config.attributes;
     
         node.on('input', function(msg) {
-            sendOptions.messages =[msg.payload];
-            node.producer.send([sendOptions],function (err) {
-                if(!err){
-                    node.status({fill:"blue",shape:"ring",text:"Sending"});
-                }
-                else{
-                    node.status({fill:"red",shape:"ring",text:"Error"});
-                }
-            });
+            if(node.ready){
+                sendOptions.messages =[msg.payload];
+                node.producer.send([sendOptions],function (err) {
+                    if(!err){
+                        node.status({fill:"blue",shape:"ring",text:"Sending"});
+                    }
+                    else{
+                        node.status({fill:"red",shape:"ring",text:"Error"});
+                    }
+                });
+            }
         });
 
         node.on('close', function(){
+            node.ready = false;
             node.status({});
             node.producer.removeListener('ready', node.onReady);
             node.producer.removeListener('error', node.onError);
