@@ -26,6 +26,7 @@ module.exports = function(RED) {
             node.onError = function(err){
                 node.status({fill:"red",shape:"ring",text:"Error"});
                 node.error(err);
+                init();
             } 
             
             node.onMessage = function(message){

@@ -24,6 +24,16 @@
     </div>
 
     <div class="form-row">
+        <label for="node-input-fetMinBytes"><i class="fa fa-tag"></i> Topic</label>
+        <input type="text" id="node-input-minbytes" placeholder="Fetch Min Bytes" step=100 min=100 max=10000>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-maxbytes"><i class="fa fa-tag"></i> Topic</label>
+        <input type="text" id="node-input-topic" placeholder="Fetch Max Bytes" step=100 min=100 max=10000>
+    </div>
+
+    <div class="form-row">
         <label for="node-input-fromOffset"><i class="fa fa-tag"></i> From Offset</label>
          <select id="node-input-fromOffset">
          	<option value="latest">latest</option>
@@ -51,6 +61,7 @@
             broker: {type:"kafka-broker"},
             outOfRangeOffset: {value:"earliest"},
             fromOffset: {value:"latest"},
+            minbytes
             topic: {required:true},
             groupid: {required:true}
         },
