@@ -9,7 +9,7 @@
 
     <div class="form-row">
         <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input  id="node-config-input-name" type="text" >
+        <input id="node-config-input-name" type="text" placeholder="Name">
 	</div>
 	
 	<div class="form-row">
@@ -58,7 +58,7 @@
         icon: "setting.png",
         defaults: {
         	name: {required:false},
-        	hosts: {value: [], required: true},
+        	hosts: {required: true},
 			selfsign: {value: false,required: false},
 			usetls: {value: false},
 			cacert: {required:false},

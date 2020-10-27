@@ -14,7 +14,9 @@ module.exports = function(RED) {
             options.groupId = config.groupid;
             options.fromOffset = config.fromOffset;
             options.outOfRangeOffset = config.outOfRangeOffset;
-    
+            options.fetchMinBytes = config.minbytes || 1;
+            options.fetchMaxBytes = config.maxbytes || 1048576;
+
             node.consumerGroup = new kafka.ConsumerGroup(options, topic);
     
             node.status({fill:"yellow",shape:"ring",text:"Initializing"});
@@ -26,7 +28,6 @@ module.exports = function(RED) {
             node.onError = function(err){
                 node.status({fill:"red",shape:"ring",text:"Error"});
                 node.error(err);
-                init();
             } 
             
             node.onMessage = function(message){

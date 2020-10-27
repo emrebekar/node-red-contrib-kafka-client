@@ -45,12 +45,12 @@
     RED.nodes.registerType('kafka-producer',{
     	category: 'kafka',
         defaults: {
-            name: {value:"",required:false},
+            name: {required:false},
             broker: {type:"kafka-broker"},
-            topic: {value:"",required:true},
-            requireAcks: {value:1,required:true},
-            ackTimeoutMs: {value:100,required:true},
-            attributes: {value:0,required:true}
+            topic: {required:true},
+            requireAcks: {value:1, required:true},
+            ackTimeoutMs: {value:100, required:true},
+            attributes: {value:0, required:true}
         },
 	    inputs:1,
         inputLabels: "",

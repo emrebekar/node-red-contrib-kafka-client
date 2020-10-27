@@ -24,13 +24,13 @@
     </div>
 
     <div class="form-row">
-        <label for="node-input-fetMinBytes"><i class="fa fa-tag"></i> Topic</label>
-        <input type="text" id="node-input-minbytes" placeholder="Fetch Min Bytes" step=100 min=100 max=10000>
+        <label for="node-input-minbytes"><i class="fa fa-tag"></i> Min Bytes</label>
+        <input type="number" id="node-input-minbytes" placeholder="Default: 1" step=1000 min=1>
     </div>
 
     <div class="form-row">
-        <label for="node-input-maxbytes"><i class="fa fa-tag"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Fetch Max Bytes" step=100 min=100 max=10000>
+        <label for="node-input-maxbytes"><i class="fa fa-tag"></i> Max Bytes</label>
+        <input type="number" id="node-input-maxbytes" placeholder="Default: 1024*1024" step=1000 min=1>
     </div>
 
     <div class="form-row">
@@ -57,11 +57,10 @@
     RED.nodes.registerType('kafka-consumer',{
         category: 'kafka',
         defaults: {
-            name: {value:""},
+            name: {required:false},
             broker: {type:"kafka-broker"},
             outOfRangeOffset: {value:"earliest"},
             fromOffset: {value:"latest"},
-            minbytes
             topic: {required:true},
             groupid: {required:true}
         },
