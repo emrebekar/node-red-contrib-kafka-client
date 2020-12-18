@@ -6,7 +6,7 @@ module.exports = function(RED) {
         var node = this;
         node.ready = false;
 
-        var init = function(){
+        node.init = function(){
             let broker = RED.nodes.getNode(config.broker);
 
             let kafkaClient = new kafka.KafkaClient(broker.getOptions());;
@@ -14,16 +14,21 @@ module.exports = function(RED) {
             let producerOptions = new Object();
             producerOptions.requireAcks = config.requireAcks;
             producerOptions.ackTimeoutMs = config.ackTimeoutMs;
+
+            node.lastMessageTime = null;
             
             node.producer = new kafka.HighLevelProducer(kafkaClient, producerOptions);
     
             node.onError = function(err){
+                node.ready = false;
+                node.lastMessageTime = null;
                 node.status({fill:"red",shape:"ring",text:"Error"});
                 node.error(err);
             }
     
             node.onReady = function(){
                 node.ready = true;
+                node.lastMessageTime = new Date().getTime();
                 node.status({fill:"green",shape:"ring",text:"Ready"});
             }
     
@@ -31,7 +36,7 @@ module.exports = function(RED) {
             node.producer.on('error', node.onError);
         }
     
-        init();
+        node.init();
     
         node.on('input', function(msg) {
             if(node.ready){
@@ -43,6 +48,7 @@ module.exports = function(RED) {
                 
                 node.producer.send([sendOptions],function (err) {
                     if(!err){
+                        node.lastMessageTime = new Date().getTime();
                         node.status({fill:"blue",shape:"ring",text:"Sending"});
                     }
                     else{
@@ -51,6 +57,17 @@ module.exports = function(RED) {
                 });
             }
         });
+
+        function checkLastMessageTime() {
+            if(node.lastMessageTime != null){
+                timeDiff = new Date().getTime() - node.lastMessageTime;
+                if(timeDiff > 5000){
+                    node.status({fill:"yellow",shape:"ring",text:"Idle"});
+                } 
+            }   
+        }
+          
+        setInterval(checkLastMessageTime, 1000);
 
         node.on('close', function(){
             node.ready = false;

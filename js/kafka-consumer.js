@@ -3,7 +3,7 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,config);
         var node = this;
             
-        var init = function(){
+        node.init = function(){
             const kafka = require('kafka-node'); 
 
             var broker = RED.nodes.getNode(config.broker);        
@@ -17,24 +17,40 @@ module.exports = function(RED) {
             options.fetchMinBytes = config.minbytes || 1;
             options.fetchMaxBytes = config.maxbytes || 1048576;
 
+            node.lastMessageTime = null;
+
             node.consumerGroup = new kafka.ConsumerGroup(options, topic);
     
             node.status({fill:"yellow",shape:"ring",text:"Initializing"});
 
             node.onConnect = function(){
+                node.lastMessageTime = new Date().getTime();
                 node.status({fill:"green",shape:"ring",text:"Ready"});
             }
  
             node.onError = function(err){
+                node.lastMessageTime = null;
                 node.status({fill:"red",shape:"ring",text:"Error"});
                 node.error(err);
             } 
             
             node.onMessage = function(message){
+                node.lastMessageTime = new Date().getTime();
                 var msg = { payload:message };
                 node.send(msg);
                 node.status({fill:"blue",shape:"ring",text:"Reading"});
             }
+
+            function checkLastMessageTime() {
+                if(node.lastMessageTime != null){
+                    timeDiff = new Date().getTime() - node.lastMessageTime;
+                    if(timeDiff > 5000){
+                        node.status({fill:"yellow",shape:"ring",text:"Idle"});
+                    }
+                }   
+            }
+              
+            setInterval(checkLastMessageTime, 1000);
 
             node.consumerGroup.on('connect', node.onConnect);
             node.consumerGroup.on('message', node.onMessage);
@@ -60,7 +76,7 @@ module.exports = function(RED) {
             });
         });
 
-        init();
+        node.init();
     }
     RED.nodes.registerType("kafka-consumer",KafkaConsumerNode);
 }
