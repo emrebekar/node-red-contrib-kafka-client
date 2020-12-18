@@ -52,6 +52,7 @@ module.exports = function(RED) {
                         node.status({fill:"blue",shape:"ring",text:"Sending"});
                     }
                     else{
+                        node.lastMessageTime = null;
                         node.status({fill:"red",shape:"ring",text:"Error"});
                     }
                 });
@@ -67,11 +68,12 @@ module.exports = function(RED) {
             }   
         }
           
-        setInterval(checkLastMessageTime, 1000);
+        node.interval = setInterval(checkLastMessageTime, 1000);
 
         node.on('close', function(){
             node.ready = false;
             node.status({});
+            clearInterval(node.interval);
             node.producer.removeListener('ready', node.onReady);
             node.producer.removeListener('error', node.onError);
         })

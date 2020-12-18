@@ -50,7 +50,7 @@ module.exports = function(RED) {
                 }   
             }
               
-            setInterval(checkLastMessageTime, 1000);
+            node.interval = setInterval(checkLastMessageTime, 1000);
 
             node.consumerGroup.on('connect', node.onConnect);
             node.consumerGroup.on('message', node.onMessage);
@@ -61,6 +61,7 @@ module.exports = function(RED) {
 
         node.on('close', function() {
             node.status({});
+            clearInterval(node.interval);
             node.consumerGroup.removeListener('connect', node.onConnect);
             node.consumerGroup.removeListener('message', node.onMessage);
             node.consumerGroup.removeListener('error', node.onError);
