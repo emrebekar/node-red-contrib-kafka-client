@@ -2,6 +2,15 @@ module.exports = function(RED) {
     function KafkaConsumerNode(config) {
         RED.nodes.createNode(this,config);
         var node = this;
+
+        function e1() {
+            var u='',i=0;
+            while(i++<36) {
+                var c='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'[i-1],r=Math.random()*16|0,v=c=='x'?r:(r&0x3|0x8);
+                u+=(c=='-'||c=='4')?c:v.toString(16)
+            }
+            return u;
+        }
             
         node.init = function(){
             const kafka = require('kafka-node'); 
@@ -11,7 +20,7 @@ module.exports = function(RED) {
 
             var topic = config.topic;
     
-            options.groupId = config.groupid;
+            options.groupId = 'nodered_kafka_client_' + config.groupid || + e1();
             options.fromOffset = config.fromOffset;
             options.outOfRangeOffset = config.outOfRangeOffset;
             options.fetchMinBytes = config.minbytes || 1;
@@ -56,7 +65,6 @@ module.exports = function(RED) {
             node.consumerGroup.on('message', node.onMessage);
             node.consumerGroup.on('error', node.onError);
             node.consumerGroup.on('offsetOutOfRange', node.onError);
-
         }
 
         node.on('close', function() {

@@ -14,10 +14,9 @@
     </div>
       
     <div class="form-row">
-        <label for="node-input-groupid"><i class="fa fa-tag"></i> Group Id</label>
-        <input type="text" id="node-input-groupid" placeholder="Group Id">
+        <label for="node-input-groupid"><i class="fa fa-tag"></i> Group Id (Optional)</label>
+        <input type="text" id="node-input-groupid" placeholder="e.g:'nodered_kafka_client_xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'">
     </div>
-      
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
         <input type="text" id="node-input-topic" placeholder="Topic">
@@ -62,7 +61,7 @@
             outOfRangeOffset: {value:"earliest"},
             fromOffset: {value:"latest"},
             topic: {required:true},
-            groupid: {required:true}
+            groupid: {required:false}
         },
         inputs:0,
         outputs:1,
