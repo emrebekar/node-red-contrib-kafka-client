@@ -1,6 +1,6 @@
 {
     "name": "node-red-contrib-kafka-client",
-    "version": "0.0.9",
+    "version": "0.1.0",
     "description": "Node-RED Kafka Consumer and Producer",
     "node-red": {
         "nodes": {
