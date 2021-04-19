@@ -25,6 +25,7 @@ module.exports = function(RED) {
             options.outOfRangeOffset = config.outOfRangeOffset;
             options.fetchMinBytes = config.minbytes || 1;
             options.fetchMaxBytes = config.maxbytes || 1048576;
+            options.encoding = config.encoding || 'utf8';
 
             node.lastMessageTime = null;
 

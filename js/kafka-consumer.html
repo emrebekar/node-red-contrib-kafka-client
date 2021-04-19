@@ -50,6 +50,14 @@
          </select>
     </div>
 
+    <div class="form-row">
+        <label for="node-input-encoding"><i class="fa fa-tag"></i> Message encoding</label>
+         <select id="node-input-encoding">
+         	<option value="utf8">UTF-8</option>
+         	<option value="buffer">buffer</option>
+         </select>
+    </div>
+
 </script>
 
 <script type="text/javascript">
@@ -61,7 +69,8 @@
             outOfRangeOffset: {value:"earliest"},
             fromOffset: {value:"latest"},
             topic: {required:true},
-            groupid: {required:false}
+            groupid: {required:false},
+            encoding: {value: "utf8"}
         },
         inputs:0,
         outputs:1,
