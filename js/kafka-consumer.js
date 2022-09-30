@@ -20,7 +20,7 @@ module.exports = function(RED) {
 
             var topic = config.topic;
     
-            options.groupId = 'nodered_kafka_client_' + !config.groupid || config.groupid === '' ? e1() : config.groupid;
+            options.groupId = 'nodered_kafka_client_' + (!config.groupid || config.groupid === '' ? e1() : config.groupid);
             options.fromOffset = config.fromOffset;
             options.outOfRangeOffset = config.outOfRangeOffset;
             options.fetchMinBytes = config.minbytes || 1;
